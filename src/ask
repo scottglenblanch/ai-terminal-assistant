@@ -1,0 +1,66 @@
+
+# ---------------------
+# Global Dependencies
+# ---------------------
+
+# tgpt 
+# - https://github.com/aandrew-me/tgpt
+
+# echo.color
+# - uses echo.color
+# - https://github.com/scottglenblanch/echo-color
+
+# OPENAI_API_KEY
+# -  create this with https://platform.openai.com/account/organization
+
+# ---------------------
+MODEL=""
+OPENAI_API_KEY=""
+PROVIDER=""
+USER_INPUT=""
+
+get_config_file_location() {
+    SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+    CONFIGURATION_DIRECTORY="$(cd ${SCRIPT_DIR} && cd ../configuration && pwd)"
+    echo "${CONFIGURATION_DIRECTORY}/config.sh"
+}
+
+initialize_variables_from_configuration_file() {
+    CONFIGURATION_FILE="$(get_config_file_location)"
+    # This will load in the necessary variables
+    # - MODEL
+    # - OPENAI_API_KEY
+    # - PROVIDER
+
+    source ${CONFIGURATION_FILE}
+}
+
+initialize_user_input() {
+    echo "Input question"
+    read USER_INPUT
+}
+
+initialize_variables() {
+    initialize_variables_from_configuration_file
+    initialize_user_input
+}
+
+
+run_ai() {
+
+    echo "You are asking..."
+    echo.color.green "${@}"
+
+    tgpt \
+        --provider ${PROVIDER} \
+        --key "${OPENAI_API_KEY}" \
+        --model "${MODEL}" \
+        \'"${USER_INPUT}"\'
+}
+
+run() {
+    initialize_variables
+    run_ai
+}
+
+run
