@@ -1,14 +1,15 @@
+#!/usr/bin/env bash
+
 GITHUB_REPO=""
 INSTALL_DIR=""
-
 
 does_command_exists() {
     command_to_check="$@"
     
     if type "$command_to_check" &> /dev/null; then
-        echo "TRUE"
+        echo "true"
     else
-        echo "FALSE"
+        echo "false"
     fi
 }
 
@@ -18,21 +19,8 @@ init_variables() {
     INSTALL_DIR="$(pwd)/ai-terminal-assistant"    
 }
 
-download_echo_color() {
-
-    if [ $(does_command_exists "echo.color.green") == "TRUE" ];
-    then
-        echo "echo.color.green exists. No need to download echo-color"
-    else
-        echo "echo.color.green DOES NOT exist. Downloading echo-color..."
-        git clone git@github.com:scottglenblanch/echo-color.git echo-color && \
-            cd echo-color && \
-            ./setup/init
-    fi
-}
-
 download_tgpt() {
-    if [ "$(does_command_exists "tgpt")" == "TRUE" ]; then
+    if [ "$(does_command_exists "tgpt")" == "true" ]; then
         echo "tgpt exists. No need to download tgpt"
     else
         echo "tgpt DOES NOT exist. Downloading tgpt..."
@@ -44,12 +32,6 @@ download_tgpt() {
         fi
     fi
 }
-
-download_dependencies() {
-    download_tgpt
-    download_echo_color
-}
-
 
 download_repo() {
 
@@ -85,9 +67,9 @@ update_path_variable() {
 
 run() {
     init_variables
-    download_dependencies
+    download_tgpt
     download_repo
     update_path_variable
 }
 
-run 
+run

@@ -1,4 +1,4 @@
-
+#!/usr/bin/env bash
 # ---------------------
 # Global Dependencies
 # ---------------------
@@ -6,17 +6,13 @@
 # tgpt 
 # - https://github.com/aandrew-me/tgpt
 
-# echo.color
-# - uses echo.color
-# - https://github.com/scottglenblanch/echo-color
-
 # OPENAI_API_KEY
+# -  this is optional
 # -  create this with https://platform.openai.com/account/organization
-
 # ---------------------
-MODEL=""
+AI_MODEL=""
+AI_PROVIDER=""
 OPENAI_API_KEY=""
-PROVIDER=""
 USER_INPUT=""
 
 get_config_file_location() {
@@ -28,9 +24,9 @@ get_config_file_location() {
 initialize_variables_from_configuration_file() {
     CONFIGURATION_FILE="$(get_config_file_location)"
     # This will load in the necessary variables
-    # - MODEL
+    # - AI_MODEL
+    # - AI_PROVIDER
     # - OPENAI_API_KEY
-    # - PROVIDER
 
     source ${CONFIGURATION_FILE}
 }
@@ -49,12 +45,12 @@ initialize_variables() {
 run_ai() {
 
     echo "You are asking..."
-    echo.color.green "${@}"
+    echo "${@}"
 
     tgpt \
-        --provider ${PROVIDER} \
+        --provider ${AI_PROVIDER} \
         --key "${OPENAI_API_KEY}" \
-        --model "${MODEL}" \
+        --model "${AI_MODEL}" \
         \'"${USER_INPUT}"\'
 }
 
