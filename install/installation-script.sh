@@ -15,21 +15,19 @@ does_command_exists() {
 
 init_variables() {
     echo "Initializing variables"
+    
     GITHUB_REPO="https://github.com/scottglenblanch/ai-terminal-assistant.git"
     INSTALL_DIR="$(pwd)/ai-terminal-assistant"    
 }
 
 download_tgpt() {
+    BIN_DIRECTORY="$([ -e "/usr/local/bin" ] && echo "/usr/local/bin" || echo "~/usr/local/bin")" 
+
     if [ "$(does_command_exists "tgpt")" == "true" ]; then
         echo "tgpt exists. No need to download tgpt"
     else
-        echo "tgpt DOES NOT exist. Downloading tgpt..."
-        if [ -e "/usr/local/bin" ]; then
-            curl -sSL https://raw.githubusercontent.com/aandrew-me/tgpt/main/install | bash -s /usr/local/bin
-        else
-            echo "Directory /usr/local/bin does not exist. Downloading tgpt to ~/usr/local/bin..."
-            curl -sSL https://raw.githubusercontent.com/aandrew-me/tgpt/main/install | bash -s ~/usr/local/bin
-        fi
+        echo "tgpt DOES NOT exist. Downloading tgpt to "${BIN_DIRECTORY}"..."
+        curl -sSL https://raw.githubusercontent.com/aandrew-me/tgpt/main/install | bash -s "${BIN_DIRECTORY}"
     fi
 }
 
