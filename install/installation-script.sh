@@ -32,13 +32,17 @@ download_echo_color() {
 }
 
 download_tgpt() {
-    if [ $(does_command_exists "tgpt") == "TRUE" ];
-    then
+    if [ "$(does_command_exists "tgpt")" == "TRUE" ]; then
         echo "tgpt exists. No need to download tgpt"
     else
         echo "tgpt DOES NOT exist. Downloading tgpt..."
-        curl -sSL https://raw.githubusercontent.com/aandrew-me/tgpt/main/install | bash -s /usr/local/bin
-    fi 
+        if [ -e "/usr/local/bin" ]; then
+            curl -sSL https://raw.githubusercontent.com/aandrew-me/tgpt/main/install | bash -s /usr/local/bin
+        else
+            echo "Directory /usr/local/bin does not exist. Downloading tgpt to ~/usr/local/bin..."
+            curl -sSL https://raw.githubusercontent.com/aandrew-me/tgpt/main/install | bash -s ~/usr/local/bin
+        fi
+    fi
 }
 
 download_dependencies() {
